@@ -1,0 +1,5 @@
+google-genai==2.33.0
+httpx==0.28.1
+python-dotenv==1.2.3
+ruff==0.17.2
+pytest==9.1.1

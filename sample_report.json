@@ -1,0 +1,125 @@
+{
+  "repository": "https://github.com/aimennnnn/demo-target",
+  "violations": [
+    {
+      "rule_id": "SEC-001",
+      "category": "security",
+      "severity": "critical",
+      "file": "config.py",
+      "line": 4,
+      "description": "Hardcoded API key credential in configuration file.",
+      "evidence": "config.py line 4 assigns an API key literal directly to API_KEY.",
+      "recommendation": "Remove the API key literal from source code and retrieve it dynamically from environment variables."
+    },
+    {
+      "rule_id": "CI-002",
+      "category": "ci",
+      "severity": "high",
+      "file": ".github/workflows/ci.yml",
+      "line": 20,
+      "description": "Test step in CI uses an ineffective gate that swallows test failures.",
+      "evidence": ".github/workflows/ci.yml line 20 executes pytest || true, preventing test failures from breaking the build.",
+      "recommendation": "Remove || true from the test step so that failing pytest tests fail the CI run."
+    },
+    {
+      "rule_id": "SEC-003",
+      "category": "security",
+      "severity": "high",
+      "file": ".env",
+      "line": null,
+      "description": "Deleted secret credentials remain present in git commit history.",
+      "evidence": "Commit 6bc2197 deleted .env containing SECRET_TOKEN and DB_PASSWORD, leaving credentials accessible in git history.",
+      "recommendation": "Rotate all exposed credentials and purge the deleted secret file from repository history using git filter-repo or BFG Repo-Cleaner."
+    },
+    {
+      "rule_id": "SEC-004",
+      "category": "security",
+      "severity": "high",
+      "file": ".github/workflows/ci.yml",
+      "line": 7,
+      "description": "GitHub Actions workflow is granted write-all permissions.",
+      "evidence": ".github/workflows/ci.yml line 7 configures permissions: write-all for the job.",
+      "recommendation": "Reduce permissions to the minimum scope needed, such as permissions: contents: read."
+    },
+    {
+      "rule_id": "HYG-002",
+      "category": "repository_hygiene",
+      "severity": "medium",
+      "file": ".gitignore",
+      "line": 1,
+      "description": "The .gitignore file is unsuitable and missing common Python temporary and environment file patterns.",
+      "evidence": ".gitignore line 1 contains only .DS_Store, omitting rules for __pycache__/, *.pyc, *.log, and environment files.",
+      "recommendation": "Expand .gitignore to ignore standard Python generated files, log files, environment files, and virtual environments."
+    },
+    {
+      "rule_id": "HYG-003",
+      "category": "repository_hygiene",
+      "severity": "medium",
+      "file": "__pycache__/config.cpython-312.pyc",
+      "line": null,
+      "description": "Committed generated and temporary files exist in the repository.",
+      "evidence": "__pycache__/config.cpython-312.pyc and server.log are committed to the repository.",
+      "recommendation": "Remove __pycache__/ and server.log from git tracking and ensure matching ignore rules are in .gitignore."
+    },
+    {
+      "rule_id": "DEP-002",
+      "category": "dependency_management",
+      "severity": "medium",
+      "file": "requirements.txt",
+      "line": 1,
+      "description": "Application dependencies in requirements.txt are completely unpinned.",
+      "evidence": "requirements.txt lines 1-2 list flask and requests without any version bounds or pinning.",
+      "recommendation": "Pin exact or version-constrained dependency specifications in requirements.txt."
+    },
+    {
+      "rule_id": "DEP-003",
+      "category": "dependency_management",
+      "severity": "medium",
+      "file": "requirements.txt",
+      "line": 1,
+      "description": "Imported third-party library PyYAML is missing from dependency manifest.",
+      "evidence": "app.py line 5 imports yaml (PyYAML) to parse stock data, but pyyaml is not declared in requirements.txt.",
+      "recommendation": "Add PyYAML with appropriate version pinning to requirements.txt."
+    },
+    {
+      "rule_id": "CI-001",
+      "category": "ci",
+      "severity": "medium",
+      "file": ".github/workflows/ci.yml",
+      "line": 5,
+      "description": "CI workflow branch triggers do not match the default branch and miss pull request events.",
+      "evidence": ".github/workflows/ci.yml line 5 targets pushes to master, whereas the default branch is main, and no pull_request trigger is configured.",
+      "recommendation": "Update the push trigger branch to main and add pull_request trigger to run CI checks on pull requests."
+    },
+    {
+      "rule_id": "CONF-001",
+      "category": "configuration",
+      "severity": "medium",
+      "file": "config.py",
+      "line": 5,
+      "description": "Machine-specific absolute local directory path in configuration.",
+      "evidence": "config.py line 5 hardcodes a Windows user path DATA_DIR = \"C:\\\\Users\\\\ahmed\\\\Desktop\\\\shop\\\\data\".",
+      "recommendation": "Configure DATA_DIR using environment variables or a relative path based on the application root."
+    },
+    {
+      "rule_id": "CONF-003",
+      "category": "configuration",
+      "severity": "medium",
+      "file": "config.py",
+      "line": 6,
+      "description": "Poor environment separation with DEBUG enabled unconditionally for production.",
+      "evidence": "config.py line 6 hardcodes DEBUG = True with a comment indicating the file is used on the production server.",
+      "recommendation": "Read the DEBUG flag from environment variables and default to False for production environments."
+    },
+    {
+      "rule_id": "QUAL-001",
+      "category": "code_quality",
+      "severity": "low",
+      "file": null,
+      "line": null,
+      "description": "No linter or code formatter is configured for the project.",
+      "evidence": "The repository lacks configuration for any Python linter/formatter (such as Ruff, Flake8, or Black) and no linting step is present in CI.",
+      "recommendation": "Configure a code quality tool such as Ruff in pyproject.toml and add a linting step to the CI pipeline."
+    }
+  ]
+}

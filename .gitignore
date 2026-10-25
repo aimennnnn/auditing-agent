@@ -1,0 +1,14 @@
+# secrets and local environments
+.env
+.venv/
+venv/
+
+# Python caches
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+
+# output of local test runs (sample_report*.json IS committed)
+report.json
+report.trace.json
